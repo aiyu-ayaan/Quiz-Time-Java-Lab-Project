@@ -3,15 +3,18 @@ package com.aatec.quiztime.ui.main_activity;
 
 import static com.aatec.quiztime.utils.Utils.isNotNull;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.os.Bundle;
-
 import com.aatec.quiztime.R;
 import com.aatec.quiztime.databinding.ActivityMainBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     private NavController navController = null;

@@ -33,7 +33,7 @@ public class Utils {
         return reference != null;
     }
 
-    public static <T extends Fragment> NavController findNavyController(T fragment) {
+    public static <T extends Fragment> NavController findNavController(T fragment) {
         var view = checkNotNull(fragment.getView(), e -> toast(fragment.getContext(), e.getMessage()));
         return Navigation.findNavController(view);
     }
