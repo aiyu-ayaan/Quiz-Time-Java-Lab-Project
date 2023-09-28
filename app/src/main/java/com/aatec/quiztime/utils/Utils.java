@@ -7,8 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 import com.google.android.material.transition.MaterialSharedAxis;
 
@@ -85,4 +88,8 @@ public class Utils {
         add(new Category(32, "Entertainment: Cartoon & Animations"));
     }};
 
+
+    public static String convertToData(long time) {
+        return new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date(time));
+    }
 }

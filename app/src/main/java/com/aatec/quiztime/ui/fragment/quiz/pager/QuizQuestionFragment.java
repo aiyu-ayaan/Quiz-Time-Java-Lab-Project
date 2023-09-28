@@ -39,7 +39,6 @@ public class QuizQuestionFragment extends Fragment {
 
     private Consumer<Void> correctListener = null;
 
-    private int points = 0;
 
     public void setCheckAnswerListener(Consumer<Void> checkAnswerListener) {
         this.checkAnswerListener = checkAnswerListener;

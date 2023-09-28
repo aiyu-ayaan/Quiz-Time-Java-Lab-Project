@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface">
@@ -22,11 +23,13 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/button_enter"
         android:layout_below="@id/appBarLayout"
         android:clipToPadding="false"
         android:paddingHorizontal="@dimen/grid_1"
-        android:paddingBottom="@dimen/grid_3"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:paddingBottom="@dimen/grid_6"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/row_quiz_home" />
 
     <TextView
         android:id="@+id/textView_empty"
