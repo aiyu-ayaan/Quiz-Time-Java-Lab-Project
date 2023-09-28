@@ -17,6 +17,6 @@ public interface QuizApi {
     @GET("api.php?amount=10&type=multiple")
     Call<QuizModel> getQuiz(
             @Query("difficulty") String difficulty,
-            @Query("category") String category
+            @Query("category") int category
     );
 }

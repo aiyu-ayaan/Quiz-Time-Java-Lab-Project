@@ -8,4 +8,6 @@
         <item name="colorSurface">@color/MainColor</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
     </style>
+
+    <style name="Theme.QuizTime" parent="Base.Theme.QuizTime" />
 </resources>

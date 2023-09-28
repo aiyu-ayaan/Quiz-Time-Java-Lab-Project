@@ -1,5 +1,7 @@
 package com.aatec.quiztime.ui.fragment.home;
 
+import static com.aatec.quiztime.utils.Utils.findNavController;
+
 import android.os.Bundle;
 import android.view.View;
 
@@ -32,6 +34,11 @@ public class HomeFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentHomeBinding.bind(view);
+        binding.buttonEnter.setOnClickListener(this::onNewQuizClick);
+    }
 
+    private void onNewQuizClick(View view){
+        var action = HomeFragmentDirections.actionHomeFragmentToStartQuizFragment();
+        findNavController(this).navigate(action);
     }
 }

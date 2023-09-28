@@ -9,5 +9,50 @@
         android:id="@+id/homeFragment"
         tools:layout="@layout/fragment_home"
         android:name="com.aatec.quiztime.ui.fragment.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_startQuizFragment"
+            app:destination="@id/startQuizFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startQuizFragment"
+        tools:layout="@layout/fragment_start_quiz"
+        android:name="com.aatec.quiztime.ui.fragment.start_quiz.StartQuizFragment"
+        android:label="StartQuizFragment" >
+        <action
+            android:id="@+id/action_startQuizFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizFragment"
+        tools:layout="@layout/fragment_quiz"
+        android:name="com.aatec.quiztime.ui.fragment.quiz.QuizFragment"
+        android:label="QuizFragment" >
+        <argument
+            android:name="quizDetails"
+            app:argType="com.aatec.quiztime.ui.fragment.start_quiz.StartQuizFragment$QuizDetailModel" />
+        <argument
+            android:name="forResult"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_quizFragment_to_scoreBoard"
+            app:destination="@id/scoreBoard"
+            app:popUpTo="@id/quizFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/scoreBoard"
+        tools:layout="@layout/fragment_final_score"
+        android:name="com.aatec.quiztime.ui.fragment.score_board.ScoreBoardFragment"
+        android:label="ScoreBoard" >
+        <argument
+            android:name="points"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_scoreBoard_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

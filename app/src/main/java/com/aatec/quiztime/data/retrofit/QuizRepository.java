@@ -26,7 +26,7 @@ public class QuizRepository {
 
     public void getQuiz(
             String difficulty,
-            String category,
+            int category,
             Consumer<QuizModel> onSuccess,
             Consumer<String> onError
     ) {
