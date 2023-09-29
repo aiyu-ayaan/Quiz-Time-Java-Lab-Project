@@ -36,7 +36,7 @@ public class QuizFragment extends BaseFragment {
     }
 
     private List<QuizModel.QuizData> quizList = new ArrayList<>();
-    private List<QuizRoomModel> quizRoomModels = new ArrayList<>();
+    private final List<QuizRoomModel> quizRoomModels = new ArrayList<>();
 
 
     private FragmentQuizBinding binding;
@@ -50,8 +50,37 @@ public class QuizFragment extends BaseFragment {
         viewModel = new ViewModelProvider(this).get(QuizViewModel.class);
 
         setTopView();
-        loadData();
+        if (viewModel.getQuizDetails().isForNewQuiz())
+            loadData();
+        else
+            loadForResult();
     }
+
+    private void loadForResult() {
+        binding.textViewQuestion.setText(getString(R.string.result));
+        var data = viewModel.getQuizDetails();
+        binding.progressIndicatorLoading.setVisibility(View.GONE);
+        var fragmentList = getFragmentForResult(data.getQuizModel().getQuizModels());
+        var adapter = new ViewPager2Adapter(getChildFragmentManager(), getLifecycle(), fragmentList);
+        binding.pager.setVisibility(View.VISIBLE);
+        binding.pager.setAdapter(adapter);
+    }
+
+    private List<Fragment> getFragmentForResult(List<QuizModel.QuizData> detailModels) {
+        return detailModels.stream().map(v -> {
+            var fragment = new QuizQuestionFragment();
+            fragment.setQuizDataAndQuestionNumber(v, detailModels.indexOf(v) + 1);
+            fragment.setShowingCorrectAnswer(true);
+            fragment.setNavigateToNextAnswerListener(this::navigateToHome);
+            return fragment;
+        }).collect(Collectors.toList());
+    }
+
+    private void navigateToHome(Void ignoredUnused) {
+        var action = QuizFragmentDirections.actionQuizFragmentToHomeFragment();
+        findNavController(this).navigate(action);
+    }
+
 
     private void loadData() {
         viewModel.loadQuizFromApi(this::onSuccess, this::onError);
@@ -90,7 +119,7 @@ public class QuizFragment extends BaseFragment {
                 findNavController(this).navigate(action);
             } else {
                 toast(requireContext(), error.getMessage());
-                Log.d(TAG, "getPointsAndNavigate: "+error.getMessage());
+                Log.d(TAG, "getPointsAndNavigate: " + error.getMessage());
             }
         });
     }

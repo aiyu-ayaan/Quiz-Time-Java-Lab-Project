@@ -19,6 +19,7 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="question_description">Here are the question related to %s !!!</string>
+    <string name="result">Result</string>
     <string name="score_des">You Just Score</string>
     <string name="score">%s / 10</string>
     <string name="empty_ngive_the_quiz_to_see_the_result">Empty !!\nGive the quiz to see the result.</string>

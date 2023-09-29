@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.aatec.quiztime.R;
-import com.aatec.quiztime.data.retrofit.QuizRepository;
+import com.aatec.quiztime.data.room.mapper.QuizMapper;
+import com.aatec.quiztime.data.room.model.QuizRoomModel;
 import com.aatec.quiztime.databinding.FragmentHomeBinding;
+import com.aatec.quiztime.ui.fragment.start_quiz.StartQuizFragment;
 import com.aatec.quiztime.utils.BaseFragment;
 
 import javax.inject.Inject;
@@ -31,8 +33,9 @@ public class HomeFragment extends BaseFragment {
     private HomeViewModel viewModel;
     private RecyclerViewAdapter adapter;
 
+
     @Inject
-    QuizRepository quizRepository;
+    QuizMapper quizMapper;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -46,8 +49,16 @@ public class HomeFragment extends BaseFragment {
 
     private void setRecyclerView() {
         adapter = new RecyclerViewAdapter();
+        adapter.setOnClick(this::navigateToQuizFragment);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+    }
+
+    private void navigateToQuizFragment(QuizRoomModel quizRoomModel) {
+        var action = HomeFragmentDirections.actionHomeFragmentToQuizFragment(new StartQuizFragment.QuizDetailModel(
+                quizMapper.mapToEntity(quizRoomModel)
+        ));
+        findNavController(this).navigate(action);
     }
 
     private void observeData() {

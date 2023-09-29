@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.aatec.quiztime.R;
+import com.aatec.quiztime.data.retrofit.model.QuizModel;
 import com.aatec.quiztime.databinding.FragmentStartQuizBinding;
 import com.aatec.quiztime.utils.BaseFragment;
 import com.aatec.quiztime.utils.Utils;
@@ -90,6 +91,14 @@ public class StartQuizFragment extends BaseFragment {
         private final int category;
         private final String difficulty;
 
+        private  QuizModel quizModel = null;
+
+        public QuizDetailModel(QuizModel quizModel) {
+            this.quizModel = quizModel;
+            this.category = 0;
+            this.difficulty = "";
+        }
+
         public QuizDetailModel(int category, String difficulty) {
             this.category = category;
             this.difficulty = difficulty;
@@ -101,6 +110,13 @@ public class StartQuizFragment extends BaseFragment {
 
         public String getDifficulty() {
             return difficulty;
+        }
+
+        public Boolean isForNewQuiz() {
+            return quizModel == null;
+        }
+        public QuizModel getQuizModel() {
+            return quizModel;
         }
     }
 }

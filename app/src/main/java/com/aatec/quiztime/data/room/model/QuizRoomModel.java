@@ -70,7 +70,7 @@ public class QuizRoomModel implements Serializable {
     public Pair<Integer, Integer> getScore() {
         int correct = 0;
         for (Questions question : questions) {
-            if (question.isCorrect())
+            if (question.isAnsweredCorrectly())
                 correct++;
 
         }
@@ -85,15 +85,15 @@ public class QuizRoomModel implements Serializable {
         private final String correctAnswer;
         private final String[] incorrectAnswers;
 
-        private final boolean isCorrect;
+        private final boolean isAnsweredCorrectly;
 
         private final String userAnswer;
 
-        public Questions(String question, String correctAnswer, String[] incorrectAnswers, boolean isCorrect, String userAnswer) {
+        public Questions(String question, String correctAnswer, String[] incorrectAnswers, boolean isAnsweredCorrectly, String userAnswer) {
             this.question = question;
             this.correctAnswer = correctAnswer;
             this.incorrectAnswers = incorrectAnswers;
-            this.isCorrect = isCorrect;
+            this.isAnsweredCorrectly = isAnsweredCorrectly;
             this.userAnswer = userAnswer;
         }
 
@@ -109,13 +109,15 @@ public class QuizRoomModel implements Serializable {
             return incorrectAnswers;
         }
 
-        public boolean isCorrect() {
-            return isCorrect;
+        public boolean isAnsweredCorrectly() {
+            return isAnsweredCorrectly;
         }
 
         public String getUserAnswer() {
             return userAnswer;
         }
+
+
 
         @NonNull
         @Override
@@ -124,7 +126,7 @@ public class QuizRoomModel implements Serializable {
                     "question='" + question + '\'' +
                     ", correctAnswer='" + correctAnswer + '\'' +
                     ", incorrectAnswers=" + Arrays.toString(incorrectAnswers) +
-                    ", isCorrect=" + isCorrect +
+                    ", isCorrect=" + isAnsweredCorrectly +
                     '}';
         }
     }

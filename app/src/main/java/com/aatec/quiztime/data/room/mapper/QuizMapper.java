@@ -36,6 +36,18 @@ public class QuizMapper implements EntityMapper<QuizModel, QuizRoomModel> {
 
     @Override
     public QuizModel mapToEntity(QuizRoomModel domainModel) {
-        return null;
+        var quizModel = new QuizModel();
+        var list = domainModel.getQuestions().stream().map(v -> new QuizModel.QuizData(
+                domainModel.getCategory(),
+                "",
+                domainModel.getDifficulty(),
+                v.getQuestion(),
+                v.getCorrectAnswer(),
+                v.getIncorrectAnswers(),
+                v.isAnsweredCorrectly(),
+                v.getUserAnswer()
+        )).collect(Collectors.toList());
+        quizModel.setQuizModels(list);
+        return quizModel;
     }
 }

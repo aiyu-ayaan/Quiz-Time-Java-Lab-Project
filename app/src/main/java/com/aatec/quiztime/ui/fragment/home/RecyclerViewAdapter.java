@@ -13,10 +13,18 @@ import com.aatec.quiztime.data.room.model.QuizRoomModel;
 import com.aatec.quiztime.databinding.RowQuizHomeBinding;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<QuizRoomModel> list = List.of();
+
+    private Consumer<QuizRoomModel> onClick;
+
+
+    public void setOnClick(Consumer<QuizRoomModel> onClick) {
+        this.onClick = onClick;
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     public void submitList(List<QuizRoomModel> list) {
@@ -43,13 +51,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return list.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final RowQuizHomeBinding binding;
 
         public ViewHolder(RowQuizHomeBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            this.binding.getRoot().setOnClickListener(v -> {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    onClick.accept(list.get(getAdapterPosition()));
+                }
+            });
         }
 
         @SuppressLint("SetTextI18n")
@@ -58,7 +71,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             binding.tvScore.setText(String.format("Score - %s/%s", model.getScore().first, model.getScore().second) +
                     "  "
                     + convertToData(model.getCreatedAt()));
-            binding.progressIndicatorPercentage.setProgress(model.getScore().first * 100 / model.getScore().second,true);
+            binding.progressIndicatorPercentage.setProgress(model.getScore().first * 100 / model.getScore().second, true);
         }
     }
 }

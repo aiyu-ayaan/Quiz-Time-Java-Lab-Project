@@ -25,6 +25,9 @@ public class QuizModel implements Serializable {
         return quizModels;
     }
 
+    public void setQuizModels(List<QuizData> quizModels) {
+        this.quizModels = quizModels;
+    }
 
     public QuizModel() {
     }
@@ -56,6 +59,18 @@ public class QuizModel implements Serializable {
             this.incorrectAnswers = incorrectAnswers;
             this.isAnsweredCorrectly = false;
             this.userAnswer = "";
+        }
+
+
+        public QuizData(String category, String type, String difficulty, String question, String correctAnswer, String[] incorrectAnswers, boolean isAnsweredCorrectly, String userAnswer) {
+            this.category = category;
+            this.type = type;
+            this.difficulty = difficulty;
+            this.question = question;
+            this.correctAnswer = correctAnswer;
+            this.incorrectAnswers = incorrectAnswers;
+            this.isAnsweredCorrectly = isAnsweredCorrectly;
+            this.userAnswer = userAnswer;
         }
 
         public QuizData() {
