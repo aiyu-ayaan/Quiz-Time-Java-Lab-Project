@@ -3,11 +3,13 @@ package com.aatec.quiztime.data.room.model;
 import android.util.Pair;
 
 import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 @Keep
@@ -18,7 +20,7 @@ public class QuizRoomModel implements Serializable {
     private String category;
     private String difficulty;
     private List<Questions> questions;
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey()
     private long createdAt;
 
     public void setCategory(String category) {
@@ -41,6 +43,10 @@ public class QuizRoomModel implements Serializable {
         this.category = category;
         this.difficulty = difficulty;
         this.questions = questions;
+        this.createdAt = System.currentTimeMillis();
+    }
+
+    public QuizRoomModel() {
         this.createdAt = System.currentTimeMillis();
     }
 
@@ -81,11 +87,14 @@ public class QuizRoomModel implements Serializable {
 
         private final boolean isCorrect;
 
-        public Questions(String question, String correctAnswer, String[] incorrectAnswers, boolean isCorrect) {
+        private final String userAnswer;
+
+        public Questions(String question, String correctAnswer, String[] incorrectAnswers, boolean isCorrect, String userAnswer) {
             this.question = question;
             this.correctAnswer = correctAnswer;
             this.incorrectAnswers = incorrectAnswers;
             this.isCorrect = isCorrect;
+            this.userAnswer = userAnswer;
         }
 
         public String getQuestion() {
@@ -103,6 +112,31 @@ public class QuizRoomModel implements Serializable {
         public boolean isCorrect() {
             return isCorrect;
         }
+
+        public String getUserAnswer() {
+            return userAnswer;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "Questions{" +
+                    "question='" + question + '\'' +
+                    ", correctAnswer='" + correctAnswer + '\'' +
+                    ", incorrectAnswers=" + Arrays.toString(incorrectAnswers) +
+                    ", isCorrect=" + isCorrect +
+                    '}';
+        }
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "QuizRoomModel{" +
+                "category='" + category + '\'' +
+                ", difficulty='" + difficulty + '\'' +
+                ", questions=" + questions +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

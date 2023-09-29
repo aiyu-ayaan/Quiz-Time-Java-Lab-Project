@@ -38,7 +38,11 @@ public class QuizQuestionFragment extends Fragment {
     private Consumer<Void> checkAnswerListener = null;
 
     private Consumer<Void> correctListener = null;
+    private Consumer<String> userAnswerListener = null;
 
+    public void setUserAnswerListener(Consumer<String> userAnswerListener) {
+        this.userAnswerListener = userAnswerListener;
+    }
 
     public void setCheckAnswerListener(Consumer<Void> checkAnswerListener) {
         this.checkAnswerListener = checkAnswerListener;
@@ -91,6 +95,7 @@ public class QuizQuestionFragment extends Fragment {
                 viewPager.getCurrentItem() == 9 ? "Submit" : "Next"
         );
         binding.buttonNext.setOnClickListener(v -> {
+            userAnswerListener.accept(answer);
             checkAnswer();
             if (viewPager.getCurrentItem() == 9) {
                 if (checkAnswerListener == null) {

@@ -90,6 +90,6 @@ public class Utils {
 
 
     public static String convertToData(long time) {
-        return new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date(time));
+        return new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new Date(time));
     }
 }

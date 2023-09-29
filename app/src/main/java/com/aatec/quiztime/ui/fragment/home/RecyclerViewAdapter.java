@@ -55,9 +55,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @SuppressLint("SetTextI18n")
         public void bind(QuizRoomModel model) {
             binding.tvQuizTitle.setText(String.format("%s - %s", model.getCategory(), model.getDifficulty()));
-            binding.tvScore.setText(String.format("%s/%s", model.getScore().first, model.getScore().second) +
-                    " Date"
+            binding.tvScore.setText(String.format("Score - %s/%s", model.getScore().first, model.getScore().second) +
+                    "  "
                     + convertToData(model.getCreatedAt()));
+            binding.progressIndicatorPercentage.setProgress(model.getScore().first * 100 / model.getScore().second,true);
         }
     }
 }

@@ -1,10 +1,13 @@
 package com.aatec.quiztime.data.retrofit.model;
 
 import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 @Keep
@@ -37,6 +40,13 @@ public class QuizModel implements Serializable {
         @SerializedName("incorrect_answers")
         private String[] incorrectAnswers;
 
+        @Expose(serialize = false, deserialize = false)
+        private boolean isAnsweredCorrectly = false;
+
+        @Expose(serialize = false, deserialize = false)
+        private String userAnswer = "";
+
+
         public QuizData(String category, String type, String difficulty, String question, String correctAnswer, String[] incorrectAnswers) {
             this.category = category;
             this.type = type;
@@ -44,6 +54,8 @@ public class QuizModel implements Serializable {
             this.question = question;
             this.correctAnswer = correctAnswer;
             this.incorrectAnswers = incorrectAnswers;
+            this.isAnsweredCorrectly = false;
+            this.userAnswer = "";
         }
 
         public QuizData() {
@@ -71,6 +83,37 @@ public class QuizModel implements Serializable {
 
         public String[] getIncorrectAnswers() {
             return incorrectAnswers;
+        }
+
+        public boolean isAnsweredCorrectly() {
+            return isAnsweredCorrectly;
+        }
+
+        public void setAnsweredCorrectly(boolean answeredCorrectly) {
+            isAnsweredCorrectly = answeredCorrectly;
+        }
+
+        public String getUserAnswer() {
+            return userAnswer;
+        }
+
+        public void setUserAnswer(String userAnswer) {
+            this.userAnswer = userAnswer;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "QuizData{" +
+                    "category='" + category + '\'' +
+                    ", type='" + type + '\'' +
+                    ", difficulty='" + difficulty + '\'' +
+                    ", question='" + question + '\'' +
+                    ", correctAnswer='" + correctAnswer + '\'' +
+                    ", incorrectAnswers=" + Arrays.toString(incorrectAnswers) +
+                    ", isAnsweredCorrectly=" + isAnsweredCorrectly +
+                    ", userAnswer='" + userAnswer + '\'' +
+                    '}';
         }
     }
 }

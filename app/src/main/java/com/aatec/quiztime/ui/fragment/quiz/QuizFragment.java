@@ -5,6 +5,7 @@ import static com.aatec.quiztime.utils.Utils.findNavController;
 import static com.aatec.quiztime.utils.Utils.toast;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -14,11 +15,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.aatec.quiztime.R;
 import com.aatec.quiztime.data.retrofit.model.QuizModel;
+import com.aatec.quiztime.data.room.model.QuizRoomModel;
 import com.aatec.quiztime.databinding.FragmentQuizBinding;
 import com.aatec.quiztime.ui.fragment.quiz.pager.QuizQuestionFragment;
 import com.aatec.quiztime.ui.fragment.quiz.pager.ViewPager2Adapter;
 import com.aatec.quiztime.utils.BaseFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,10 @@ public class QuizFragment extends BaseFragment {
     public QuizFragment() {
         super(R.layout.fragment_quiz);
     }
+
+    private List<QuizModel.QuizData> quizList = new ArrayList<>();
+    private List<QuizRoomModel> quizRoomModels = new ArrayList<>();
+
 
     private FragmentQuizBinding binding;
 
@@ -52,7 +59,7 @@ public class QuizFragment extends BaseFragment {
 
     private void onSuccess(QuizModel quizModel) {
         binding.progressIndicatorLoading.setVisibility(View.GONE);
-        var quizList = quizModel.getQuizModels();
+        quizList = quizModel.getQuizModels();
         var fragmentList = getFragment(quizList);
         var adapter = new ViewPager2Adapter(getChildFragmentManager(), getLifecycle(), fragmentList);
         binding.pager.setVisibility(View.VISIBLE);
@@ -64,15 +71,28 @@ public class QuizFragment extends BaseFragment {
         return quizData.stream().map(v -> {
             var fragment = new QuizQuestionFragment();
             fragment.setQuizDataAndQuestionNumber(v, quizData.indexOf(v) + 1);
-            fragment.setCorrectListener(viewModel::incrementPoints);
+            fragment.setCorrectListener(c -> updateValue(quizData.indexOf(v)));
             fragment.setCheckAnswerListener(this::getPointsAndNavigate);
+            fragment.setUserAnswerListener(v::setUserAnswer);
             return fragment;
         }).collect(Collectors.toList());
     }
 
+    private void updateValue(int pos) {
+        quizList.get(pos).setAnsweredCorrectly(true);
+        viewModel.incrementPoints();
+    }
+
     private void getPointsAndNavigate(Void ignoredUnused) {
-        var action = QuizFragmentDirections.actionQuizFragmentToScoreBoard(viewModel.getPoints());
-        findNavController(this).navigate(action);
+        viewModel.insertData(quizList, error -> {
+            if (error == null) {
+                var action = QuizFragmentDirections.actionQuizFragmentToScoreBoard(viewModel.getPoints());
+                findNavController(this).navigate(action);
+            } else {
+                toast(requireContext(), error.getMessage());
+                Log.d(TAG, "getPointsAndNavigate: "+error.getMessage());
+            }
+        });
     }
 
     private void onError(String m) {
@@ -80,10 +100,7 @@ public class QuizFragment extends BaseFragment {
     }
 
     private void setTopView() {
-        binding.textViewQuestion.setText(getResources().getString(
-                R.string.question_description,
-                getCategoryFromId(viewModel.getQuizDetails().getCategory())
-        ));
+        binding.textViewQuestion.setText(getResources().getString(R.string.question_description, getCategoryFromId(viewModel.getQuizDetails().getCategory())));
         binding.progressIndicatorLoading.setVisibility(View.VISIBLE);
     }
 
