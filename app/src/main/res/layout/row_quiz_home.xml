@@ -17,12 +17,11 @@
             android:id="@+id/tv_quiz_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/grid_1"
             android:padding="@dimen/grid_1"
             android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintEnd_toStartOf="@+id/progress_indicator_percentage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/progress_indicator_percentage"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Category : General" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -42,8 +41,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/grid_1"
+            android:layout_marginEnd="@dimen/grid_1"
+            android:layout_marginTop="@dimen/grid_0_5"
             android:textAppearance="?attr/textAppearanceBody1"
-            app:layout_constraintBottom_toBottomOf="@+id/progress_indicator_percentage"
             app:layout_constraintEnd_toStartOf="@+id/progress_indicator_percentage"
             app:layout_constraintStart_toStartOf="@+id/tv_quiz_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_quiz_title"
